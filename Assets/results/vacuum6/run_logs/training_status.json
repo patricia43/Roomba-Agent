@@ -1,0 +1,65 @@
+{
+    "VacuumBehavior": {
+        "checkpoints": [
+            {
+                "steps": 86916,
+                "file_path": "results\\vacuum6\\VacuumBehavior\\VacuumBehavior-86916.onnx",
+                "reward": -273.7900342941284,
+                "creation_time": 1777985666.8014946,
+                "auxillary_file_paths": [
+                    "results\\vacuum6\\VacuumBehavior\\VacuumBehavior-86916.pt"
+                ]
+            },
+            {
+                "steps": 119044,
+                "file_path": "results\\vacuum6\\VacuumBehavior\\VacuumBehavior-119044.onnx",
+                "reward": -31.990003287792206,
+                "creation_time": 1777985946.7522097,
+                "auxillary_file_paths": [
+                    "results\\vacuum6\\VacuumBehavior\\VacuumBehavior-119044.pt"
+                ]
+            },
+            {
+                "steps": 132726,
+                "file_path": "results\\vacuum6\\VacuumBehavior\\VacuumBehavior-132726.onnx",
+                "reward": -33.96000310778618,
+                "creation_time": 1777986227.8683918,
+                "auxillary_file_paths": [
+                    "results\\vacuum6\\VacuumBehavior\\VacuumBehavior-132726.pt"
+                ]
+            },
+            {
+                "steps": 134854,
+                "file_path": "results\\vacuum6\\VacuumBehavior\\VacuumBehavior-134854.onnx",
+                "reward": -33.49000346660614,
+                "creation_time": 1777986463.4999626,
+                "auxillary_file_paths": [
+                    "results\\vacuum6\\VacuumBehavior\\VacuumBehavior-134854.pt"
+                ]
+            },
+            {
+                "steps": 137238,
+                "file_path": "results\\vacuum6\\VacuumBehavior\\VacuumBehavior-137238.onnx",
+                "reward": -30.99000322818756,
+                "creation_time": 1777986597.0656462,
+                "auxillary_file_paths": [
+                    "results\\vacuum6\\VacuumBehavior\\VacuumBehavior-137238.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 137238,
+            "file_path": "results\\vacuum6\\VacuumBehavior.onnx",
+            "reward": -30.99000322818756,
+            "creation_time": 1777986597.0656462,
+            "auxillary_file_paths": [
+                "results\\vacuum6\\VacuumBehavior\\VacuumBehavior-137238.pt"
+            ]
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "1.1.0",
+        "torch_version": "2.2.2+cu121"
+    }
+}

@@ -13,9 +13,9 @@ GameObject:
   - component: {fileID: 8353099742270676451}
   - component: {fileID: 2546299596794532669}
   - component: {fileID: 761554318883688673}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Sphere
-  m_TagString: Untagged
+  m_TagString: Dirt
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -124,3 +124,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a791694c9d3c5244f978fa0624add175, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Colllectible
+  gameManager: {fileID: 0}

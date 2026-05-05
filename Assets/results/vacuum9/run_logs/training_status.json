@@ -1,0 +1,38 @@
+{
+    "VacuumBehavior": {
+        "checkpoints": [
+            {
+                "steps": 76810,
+                "file_path": "results\\vacuum9\\VacuumBehavior\\VacuumBehavior-76810.onnx",
+                "reward": 95.00777708159552,
+                "creation_time": 1777988556.246849,
+                "auxillary_file_paths": [
+                    "results\\vacuum9\\VacuumBehavior\\VacuumBehavior-76810.pt"
+                ]
+            },
+            {
+                "steps": 492057,
+                "file_path": "results\\vacuum9\\VacuumBehavior\\VacuumBehavior-492057.onnx",
+                "reward": 99.71785940442767,
+                "creation_time": 1777990807.55519,
+                "auxillary_file_paths": [
+                    "results\\vacuum9\\VacuumBehavior\\VacuumBehavior-492057.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 492057,
+            "file_path": "results\\vacuum9\\VacuumBehavior.onnx",
+            "reward": 99.71785940442767,
+            "creation_time": 1777990807.55519,
+            "auxillary_file_paths": [
+                "results\\vacuum9\\VacuumBehavior\\VacuumBehavior-492057.pt"
+            ]
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "1.1.0",
+        "torch_version": "2.2.2+cu121"
+    }
+}
