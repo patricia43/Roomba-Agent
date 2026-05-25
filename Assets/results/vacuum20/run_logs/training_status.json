@@ -1,0 +1,47 @@
+{
+    "VacuumBehavior": {
+        "checkpoints": [
+            {
+                "steps": 241229,
+                "file_path": "results\\vacuum20\\VacuumBehavior\\VacuumBehavior-241229.onnx",
+                "reward": 38.89830884933472,
+                "creation_time": 1778512792.4712563,
+                "auxillary_file_paths": [
+                    "results\\vacuum20\\VacuumBehavior\\VacuumBehavior-241229.pt"
+                ]
+            },
+            {
+                "steps": 499968,
+                "file_path": "results\\vacuum20\\VacuumBehavior\\VacuumBehavior-499968.onnx",
+                "reward": 47.35794277985891,
+                "creation_time": 1778536025.9039476,
+                "auxillary_file_paths": [
+                    "results\\vacuum20\\VacuumBehavior\\VacuumBehavior-499968.pt"
+                ]
+            },
+            {
+                "steps": 630486,
+                "file_path": "results\\vacuum20\\VacuumBehavior\\VacuumBehavior-630486.onnx",
+                "reward": 100.68601081892848,
+                "creation_time": 1778536577.9086444,
+                "auxillary_file_paths": [
+                    "results\\vacuum20\\VacuumBehavior\\VacuumBehavior-630486.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 630486,
+            "file_path": "results\\vacuum20\\VacuumBehavior.onnx",
+            "reward": 100.68601081892848,
+            "creation_time": 1778536577.9086444,
+            "auxillary_file_paths": [
+                "results\\vacuum20\\VacuumBehavior\\VacuumBehavior-630486.pt"
+            ]
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "1.1.0",
+        "torch_version": "2.2.2+cu121"
+    }
+}

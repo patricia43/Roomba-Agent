@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class VacuumAgent : Agent
 {
-    [SerializeField] public float _moveSpeed = 6f;
+    [SerializeField] public float _moveSpeed = 3f;
     [SerializeField] public float _rotationSpeed = 200f;
 
     protected Rigidbody _rigidbody;
@@ -18,15 +18,17 @@ public class VacuumAgent : Agent
     // detection settings
     public float sphereRadius = 0.2f;
     public float detectionDistance = 8f;
-    public int numberOfDirections = 16;
+    public int numberOfDirections = 32;
     // public LayerMask obstacleLayerMask = 1 << 6;
     // public LayerMask obstacleLayerMask = ~0;
     public LayerMask layerMask;
 
     // det results
     protected float[] distances;
+    protected float[] furnitureDistances;
     protected bool[] hasHit;
     protected RaycastHit[] hits;
+    private float previousNearestDirtDistance;
 
     // debugging
     public bool debugDrawHit = true;
@@ -39,6 +41,7 @@ public class VacuumAgent : Agent
         _rigidbody = GetComponent<Rigidbody>();
 
         distances = new float[numberOfDirections];
+        furnitureDistances = new float[numberOfDirections];
         hasHit = new bool[numberOfDirections];
         hits = new RaycastHit[numberOfDirections];
         Debug.Log("VacuumAgentInitialized");
@@ -50,15 +53,21 @@ public class VacuumAgent : Agent
     {
         // Reset agent / scene at ep start
         _gameManager.StartNewEpisode();
+
+        previousNearestDirtDistance = GetNearestDirtDistance();
+
         Debug.Log("Episode begun");
     }
 
     public override void CollectObservations(VectorSensor sensor)
     {
-        // Collect observations
-        float[] distances = GetDistances();
-        sensor.AddObservation(distances);
-        // Debug.Log("Observations collected");
+        DetectSurroundings();
+
+        for (int i = 0; i < numberOfDirections; i++)
+        {
+            sensor.AddObservation(distances[i] / detectionDistance);
+            sensor.AddObservation(furnitureDistances[i] / detectionDistance);
+        }
     }
 
     public override void Heuristic(in ActionBuffers actionsOut)
@@ -74,6 +83,10 @@ public class VacuumAgent : Agent
         {
             discreteActionsOut[0] = 1; // move forward
         }
+        else if (Input.GetKey(KeyCode.S))
+        {
+            discreteActionsOut[0] = 2; // backward
+        }
 
         // Branch 1: rotate
         if (Input.GetKey(KeyCode.A))
@@ -88,7 +101,6 @@ public class VacuumAgent : Agent
 
     public override void OnActionReceived(ActionBuffers actions)
     {
-        // Apply actions and rewards
         if (_gameManager != null && !_gameManager.IsGameActive())
             return;
 
@@ -98,46 +110,58 @@ public class VacuumAgent : Agent
         int moveAction = actions.DiscreteActions[0];
         int rotateAction = actions.DiscreteActions[1];
 
-        // move agent
+        _movement = Vector3.zero;
+        _rotation = 0f;
+
+        // movement
         if (moveAction == 1)
         {
-            // move forward
-            _movement = transform.forward * _moveSpeed * Time.fixedDeltaTime;
+            // forward
+            _movement = transform.forward * _moveSpeed;
+        }
+        else if (moveAction == 2)
+        {
+            // backward
+            _movement = -transform.forward * _moveSpeed;
         }
 
-        // rotate agent
         if (rotateAction == 1)
         {
-            // rotate left
-            _rotation = -_rotationSpeed * Time.fixedDeltaTime;
+            _rotation = -_rotationSpeed;
         }
         else if (rotateAction == 2)
         {
-            // rotate right
-            _rotation = _rotationSpeed * Time.fixedDeltaTime;
+            _rotation = _rotationSpeed;
         }
 
-        // small penalty for time passing
         AddReward(-0.01f);
-
-        // Debug.Log("Action received: move " + moveAction + ", rotate " + rotateAction);
+        // update reward in ui
+        _gameManager.currentRewards -= 0.01f;
+        _gameManager.UpdateAllUI();
     }
 
     private void FixedUpdate()
     {
-        // apply movement and rotation
-        _rigidbody.MovePosition(_rigidbody.position + _movement);
+        Vector3 velocity = _movement;
+        velocity.y = _rigidbody.linearVelocity.y;
 
-        _rigidbody.MoveRotation(
-            _rigidbody.rotation * Quaternion.Euler(0f, _rotation, 0f)
-        );
+        _rigidbody.linearVelocity = velocity;
+
+        if (_rotation != 0f)
+        {
+            Quaternion deltaRotation = Quaternion.Euler(
+                0f,
+                _rotation * Time.fixedDeltaTime,
+                0f
+            );
+
+            _rigidbody.MoveRotation(_rigidbody.rotation * deltaRotation);
+        }
 
         _movement = Vector3.zero;
         _rotation = 0f;
 
         _rigidbody.angularVelocity = Vector3.zero;
-
-        // Debug.Log("FixedUpdate applied movement and rotation");
     }
 
     private void Update()
@@ -154,47 +178,83 @@ public class VacuumAgent : Agent
             float angle = (360f / numberOfDirections) * i;
             float radian = angle * Mathf.Deg2Rad;
 
-            Vector3 localDirection = new Vector3(Mathf.Cos(radian), 0f, Mathf.Sin(radian));
-            Vector3 worldDirection = transform.TransformDirection(localDirection).normalized;
+            Vector3 localDirection = new Vector3(
+                Mathf.Cos(radian),
+                0f,
+                Mathf.Sin(radian)
+            );
 
-            Debug.DrawRay(sphereOrigin, worldDirection * detectionDistance, Color.yellow);
+            Vector3 worldDirection =
+                transform.TransformDirection(localDirection).normalized;
 
-            hasHit[i] = Physics.SphereCast(
+            distances[i] = detectionDistance;
+            furnitureDistances[i] = detectionDistance;
+
+            RaycastHit[] allHits = Physics.SphereCastAll(
                 sphereOrigin,
                 sphereRadius,
                 worldDirection,
-                out hits[i],
                 detectionDistance,
                 layerMask,
                 QueryTriggerInteraction.Collide
             );
 
-            if (hasHit[i])
+            foreach (RaycastHit hit in allHits)
             {
-                distances[i] = hits[i].distance;
-
-                Color rayColor = hits[i].collider.CompareTag("Dirt") ? Color.magenta : Color.green;
-
-                Debug.DrawRay(sphereOrigin, worldDirection * hits[i].distance, rayColor);
-                Debug.Log("Hit: " + hits[i].collider.name + " tag=" + hits[i].collider.tag);
+                if (hit.collider.CompareTag("Dirt"))
+                {
+                    distances[i] = Mathf.Min(distances[i], hit.distance);
+                }
+                else if (hit.collider.GetComponentInParent<ResettableObject>() != null)
+                {
+                    furnitureDistances[i] = Mathf.Min(furnitureDistances[i], hit.distance);
+                }
             }
-            else
+
+            if (distances[i] < detectionDistance)
             {
-                distances[i] = detectionDistance;
+                Debug.DrawRay(sphereOrigin, worldDirection * distances[i], Color.magenta);
+                DrawDebugSphere(sphereOrigin + worldDirection * distances[i], sphereRadius, Color.magenta);
+            }
+
+            if (furnitureDistances[i] < detectionDistance)
+            {
+                Debug.DrawRay(sphereOrigin, worldDirection * furnitureDistances[i], Color.cyan);
+                DrawDebugSphere(sphereOrigin + worldDirection * furnitureDistances[i], sphereRadius, Color.cyan);
             }
         }
     }
 
-    //private void DrawDebugSphere(Vector3 center, float radius, Color color)
-    //{
-    //    Debug.DrawLine(center + Vector3.up * radius, center - Vector3.up * radius, color);
-    //    Debug.DrawLine(center + Vector3.right * radius, center - Vector3.right * radius, color);
-    //    Debug.DrawLine(center + Vector3.forward * radius, center - Vector3.forward * radius, color);
-    //}
+    private void DrawDebugSphere(Vector3 center, float radius, Color color)
+    {
+        Debug.DrawLine(center + Vector3.up * radius, center - Vector3.up * radius, color);
+        Debug.DrawLine(center + Vector3.right * radius, center - Vector3.right * radius, color);
+        Debug.DrawLine(center + Vector3.forward * radius, center - Vector3.forward * radius, color);
+    }
 
     private float[] GetDistances()
     {
         DetectSurroundings();
         return distances;
+    }
+
+    private float GetNearestDirtDistance()
+    {
+        GameObject[] dirtObjects = GameObject.FindGameObjectsWithTag("Dirt");
+
+        if (dirtObjects.Length == 0)
+            return 0f;
+
+        float nearestDistance = float.MaxValue;
+
+        foreach (GameObject dirt in dirtObjects)
+        {
+            float distance = Vector3.Distance(transform.position, dirt.transform.position);
+
+            if (distance < nearestDistance)
+                nearestDistance = distance;
+        }
+
+        return nearestDistance;
     }
 }

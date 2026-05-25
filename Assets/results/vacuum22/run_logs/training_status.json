@@ -1,0 +1,65 @@
+{
+    "VacuumBehavior": {
+        "checkpoints": [
+            {
+                "steps": 7456908,
+                "file_path": "results\\vacuum22\\VacuumBehavior\\VacuumBehavior-7456908.onnx",
+                "reward": null,
+                "creation_time": 1778862530.6000798,
+                "auxillary_file_paths": [
+                    "results\\vacuum22\\VacuumBehavior\\VacuumBehavior-7456908.pt"
+                ]
+            },
+            {
+                "steps": 7499951,
+                "file_path": "results\\vacuum22\\VacuumBehavior\\VacuumBehavior-7499951.onnx",
+                "reward": 100.36258935928345,
+                "creation_time": 1778939780.0405796,
+                "auxillary_file_paths": [
+                    "results\\vacuum22\\VacuumBehavior\\VacuumBehavior-7499951.pt"
+                ]
+            },
+            {
+                "steps": 7999943,
+                "file_path": "results\\vacuum22\\VacuumBehavior\\VacuumBehavior-7999943.onnx",
+                "reward": 113.76275841519237,
+                "creation_time": 1778941576.1511478,
+                "auxillary_file_paths": [
+                    "results\\vacuum22\\VacuumBehavior\\VacuumBehavior-7999943.pt"
+                ]
+            },
+            {
+                "steps": 8499976,
+                "file_path": "results\\vacuum22\\VacuumBehavior\\VacuumBehavior-8499976.onnx",
+                "reward": 110.0349143232618,
+                "creation_time": 1778943386.9390574,
+                "auxillary_file_paths": [
+                    "results\\vacuum22\\VacuumBehavior\\VacuumBehavior-8499976.pt"
+                ]
+            },
+            {
+                "steps": 8753242,
+                "file_path": "results\\vacuum22\\VacuumBehavior\\VacuumBehavior-8753242.onnx",
+                "reward": 110.02894208828609,
+                "creation_time": 1778944305.2576454,
+                "auxillary_file_paths": [
+                    "results\\vacuum22\\VacuumBehavior\\VacuumBehavior-8753242.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 8753242,
+            "file_path": "results\\vacuum22\\VacuumBehavior.onnx",
+            "reward": 110.02894208828609,
+            "creation_time": 1778944305.2576454,
+            "auxillary_file_paths": [
+                "results\\vacuum22\\VacuumBehavior\\VacuumBehavior-8753242.pt"
+            ]
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "1.1.0",
+        "torch_version": "2.2.2+cu121"
+    }
+}

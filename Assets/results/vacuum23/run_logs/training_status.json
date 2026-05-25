@@ -1,0 +1,65 @@
+{
+    "VacuumBehavior": {
+        "checkpoints": [
+            {
+                "steps": 6499945,
+                "file_path": "results\\vacuum23\\VacuumBehavior\\VacuumBehavior-6499945.onnx",
+                "reward": 108.12993264198303,
+                "creation_time": 1779172696.8660018,
+                "auxillary_file_paths": [
+                    "results\\vacuum23\\VacuumBehavior\\VacuumBehavior-6499945.pt"
+                ]
+            },
+            {
+                "steps": 6860361,
+                "file_path": "results\\vacuum23\\VacuumBehavior\\VacuumBehavior-6860361.onnx",
+                "reward": 106.1234347479684,
+                "creation_time": 1779174010.5754752,
+                "auxillary_file_paths": [
+                    "results\\vacuum23\\VacuumBehavior\\VacuumBehavior-6860361.pt"
+                ]
+            },
+            {
+                "steps": 6999873,
+                "file_path": "results\\vacuum23\\VacuumBehavior\\VacuumBehavior-6999873.onnx",
+                "reward": 127.91264928877354,
+                "creation_time": 1779175359.3396573,
+                "auxillary_file_paths": [
+                    "results\\vacuum23\\VacuumBehavior\\VacuumBehavior-6999873.pt"
+                ]
+            },
+            {
+                "steps": 7499973,
+                "file_path": "results\\vacuum23\\VacuumBehavior\\VacuumBehavior-7499973.onnx",
+                "reward": 145.5882271357945,
+                "creation_time": 1779177391.9644759,
+                "auxillary_file_paths": [
+                    "results\\vacuum23\\VacuumBehavior\\VacuumBehavior-7499973.pt"
+                ]
+            },
+            {
+                "steps": 7784463,
+                "file_path": "results\\vacuum23\\VacuumBehavior\\VacuumBehavior-7784463.onnx",
+                "reward": 130.4087374445639,
+                "creation_time": 1779178566.945166,
+                "auxillary_file_paths": [
+                    "results\\vacuum23\\VacuumBehavior\\VacuumBehavior-7784463.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 7784463,
+            "file_path": "results\\vacuum23\\VacuumBehavior.onnx",
+            "reward": 130.4087374445639,
+            "creation_time": 1779178566.945166,
+            "auxillary_file_paths": [
+                "results\\vacuum23\\VacuumBehavior\\VacuumBehavior-7784463.pt"
+            ]
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "1.1.0",
+        "torch_version": "2.2.2+cu121"
+    }
+}

@@ -1,0 +1,29 @@
+{
+    "VacuumBehavior": {
+        "checkpoints": [
+            {
+                "steps": 302685,
+                "file_path": "results\\vacuum17\\VacuumBehavior\\VacuumBehavior-302685.onnx",
+                "reward": -32.92101898789406,
+                "creation_time": 1778507580.5910187,
+                "auxillary_file_paths": [
+                    "results\\vacuum17\\VacuumBehavior\\VacuumBehavior-302685.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 302685,
+            "file_path": "results\\vacuum17\\VacuumBehavior.onnx",
+            "reward": -32.92101898789406,
+            "creation_time": 1778507580.5910187,
+            "auxillary_file_paths": [
+                "results\\vacuum17\\VacuumBehavior\\VacuumBehavior-302685.pt"
+            ]
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "1.1.0",
+        "torch_version": "2.2.2+cu121"
+    }
+}

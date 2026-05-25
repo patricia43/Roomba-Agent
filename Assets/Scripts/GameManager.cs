@@ -31,11 +31,14 @@ public class GameManager : MonoBehaviour
 
     private int currentEpisode = 0;
     private int currentSteps = 0;
-    private float currentRewards = 0f;
+    public float currentRewards = 0f;
 
     private bool gameRunning = false;
     private float elapsedTime = 0f;
     private float bestTime = -1f;
+
+    public int furnitureHitsThisEpisode = 0;
+    public int maxFurnitureHits = 3;
 
     private VacuumAgent _agent;
 
@@ -79,6 +82,7 @@ public class GameManager : MonoBehaviour
         currentRewards = 0f;
         elapsedTime = 0f;
         gameRunning = true;
+        furnitureHitsThisEpisode = 0;
 
         ClearCollectibles();
         ResetPlayer();
@@ -179,10 +183,20 @@ public class GameManager : MonoBehaviour
 
     private bool IsInsideRoomShape(float x, float z)
     {
-        bool inMainRect = x >= -5f && x <= 3f && z >= -3.7f && z <= 0f;
-        bool inTopRect = x >= -2.5f && x <= 3f && z >= 0f && z <= 1.83f;
 
-        return inMainRect || inTopRect;
+        bool inMainRect = x >= -5f && x <= 1.2f && z >= -3.7f && z <= 0f;
+        bool inTopRightRect = x >= 2.2f && x <= 2.9f && z >= -0.4f && z <= 1.6f;
+        bool inTopLeftRect = x >= -1.95f && x <= -1.4f && z >= 0f && z <= 1f;
+        bool underTable = x >= 0.08f && x <= 0.75f && z >= 0f && z <= 2.2f;
+        bool inFrontOfRightChair = x >= 1.2f && x <= 1.85f && z >= -0.75f && z <= 0.05f;
+
+        return
+            inMainRect ||
+            inTopRightRect ||
+            //inTopLeftRect ||
+            underTable ||
+            inFrontOfRightChair || 
+            false ;
     }
 
     public void CollectObject(Collectible collectible)
@@ -220,12 +234,12 @@ public class GameManager : MonoBehaviour
 
             if (bestTime < 0f || elapsedTime < bestTime)
                 bestTime = elapsedTime;
-        }
-        else
-        {
-            // optional penalty
-            //if (_agent != null)
-            //    _agent.AddReward(-10f);
+
+            if (furnitureHitsThisEpisode == 0)
+            {
+                _agent.AddReward(50f);
+                currentRewards += 50f;
+            }
         }
 
         UpdateAllUI();
@@ -261,7 +275,7 @@ public class GameManager : MonoBehaviour
         UpdateAllUI();
     }
 
-    private void UpdateAllUI()
+    public void UpdateAllUI()
     {
         UpdateEpisodeUI();
         UpdateStepsUI();
@@ -318,5 +332,23 @@ public class GameManager : MonoBehaviour
     public bool IsGameActive()
     {
         return gameRunning;
+    }
+
+    public void RegisterFurnitureHit()
+    {
+        furnitureHitsThisEpisode++;
+
+        if (furnitureHitsThisEpisode >= maxFurnitureHits)
+        {
+            if (_agent != null)
+            {
+                _agent.AddReward(-10f);
+                currentRewards -= 10f;
+            }
+
+            EndEpisode(false);
+        }
+
+        UpdateAllUI();
     }
 }
